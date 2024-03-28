@@ -1,19 +1,10 @@
 #! /usr/bin/env node
 import inquirer from "inquirer";
-function getRandomNumber(min: number, max: number){
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
-// Main function for the guessing game
-async function numberGuessingGame() {
-    const minNumber: number = 1;
-    const maxNumber: number = 10;
-    let secretNumber: number = getRandomNumber(minNumber, maxNumber);
-    let attempts: number = 0;
+let secretNumber = Math.floor (Math.random() * 10 + 1);
     let guess: number = 0;
-
     console.log("Welcome to the Number Guessing Game!");
-    console.log(`I've picked a number between ${minNumber} and ${maxNumber}. Can you guess it?`);
+    console.log(`I've picked a number between 1 and 10. Can you guess it?`);
 
     do {
         const guess = await inquirer.prompt({
@@ -21,7 +12,6 @@ async function numberGuessingGame() {
             type: "number", 
             message: "Enter your guess (between 1-10):\n",
         })
-            attempts++;
 
             if (guess.yournumber < secretNumber) {
                 console.log("Too low! Try again.");
@@ -34,6 +24,7 @@ async function numberGuessingGame() {
                 console.log("Invalid input. Please enter a valid number.");
             }
         if (guess.yournumber == secretNumber) {
+            console.log("Congratulations! You guessed the correct number")
             const playAgain = await inquirer.prompt({
             name: "yourChoice",
             type: "list",
@@ -43,12 +34,9 @@ async function numberGuessingGame() {
             if (playAgain.yourChoice == "No") {
                 break;
             } else {
-                secretNumber = getRandomNumber(minNumber, maxNumber);
-                attempts = 0;
-                console.log(`I've picked a new number between ${minNumber} and ${maxNumber}. Can you guess it?`);
+                secretNumber = Math.floor (Math.random() * 10 + 1);
+                console.log(`I've picked a new number between 1 and 10. Can you guess it?`);
             }
         } 
     } while (guess != secretNumber);
-    console.log("Game over...");
-}
-numberGuessingGame();
+    console.log("Game over...")
